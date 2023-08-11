@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEditor.FilePathAttribute;
 using static UnityEngine.GraphicsBuffer;
 
 //Check if npc has arrived at destination tile
@@ -14,6 +15,7 @@ using static UnityEngine.GraphicsBuffer;
 
 public class PathFinding : MonoBehaviour
 {
+    public GameManager gameManager;
     public NPCMove npc;
     public Vector2 currentPos;
     public Vector3[] finalPath;
@@ -34,7 +36,7 @@ public class PathFinding : MonoBehaviour
     {
         speed = 1.0f;
         targetIndex = 0;
-        grid = currentLocation.locationGrid;
+        //Debug.Log(grid);
     }
     private void Update()
     {
@@ -45,37 +47,38 @@ public class PathFinding : MonoBehaviour
         {
             startTile = startPos;
             targetTile = targetPos;
-            arrived = true;
+            //arrived = true;
         }
         else if (npc.location != npc.destination)
         {
             foreach (Location loc in currentLocation.connectedLocations)
             {
-                if(loc == npc.destination)
+                if (loc == npc.destination)
                 {
                     startTile = startPos;
-                    foreach (Transition tran  in currentLocation.transitions)
+                    foreach (Transition tran in currentLocation.transitions)
                     {
                         Debug.Log(tran.destination.locationName);
                         if (tran.destination == npc.destination)
                         {
                             targetTransition = tran;
                             destination = tran.destination;
-                            targetTile = tran.locationTile;
+                            targetTile = gameManager.sceneGrids[npc.location.locationName].tiles[tran.locationTile];
+                            //npc.location.locationGrid.tiles[tran.locationTile];
                             break;
                         }
                     }
                 }
-                else if (loc.locationName == "World")
+                else if (loc.locationName == "Scene 2")
                 {
                     startTile = startPos;
                     foreach (Transition tran in currentLocation.transitions)
                     {
-                        if (tran.destination.locationName == "World")
+                        if (tran.destination.locationName == "Scene 2")
                         {
                             targetTransition = tran;
                             destination = tran.destination;
-                            targetTile = tran.locationTile;
+                            targetTile = gameManager.sceneGrids[npc.location.locationName].tiles[tran.locationTile];
                             break;
                         }
                     }
@@ -106,8 +109,8 @@ public class PathFinding : MonoBehaviour
                 RetracePath(startTile, targetTile);
                 return; //If the currentTile is targetTile, path has been found -> return the found path
             }
-            grid = currentLocation.locationGrid;
-
+            grid = gameManager.sceneGrids[currentLocation.locationName]; 
+            
             foreach (Tile neighbour in grid.GetNeighbours(currentTile)) //Foreach neighbourTile of currentTile 
             {
                 if (!neighbour.isWalkable || closedSet.Contains(neighbour))
@@ -173,7 +176,6 @@ public class PathFinding : MonoBehaviour
 
     IEnumerator FollowPath(float delay)
     {
-        Debug.Log(currentLocation.locationName);
         //yield return new WaitForSeconds(delay);
 
         //targetIndex = 0;
@@ -182,22 +184,26 @@ public class PathFinding : MonoBehaviour
         //    gameObject.transform.position = (Vector2)finalPath[finalPath.Length - 1];
         //    yield break;
         //}
+
         currentPos = (Vector2)finalPath[targetIndex];
+        
         Vector2 currentPoint = (Vector2)finalPath[targetIndex];
         while (true)
         {
             if ((Vector2)currentPos == currentPoint)
             {
                 targetIndex++;
+                
                 if (targetIndex >= finalPath.Length)
                 {
+                    //if (currentLocation.locationGrid.TilePosition(currentPos) == )
+                    
                     targetIndex = 0;
-                    //locationIndex++;
                     npc.location = destination;
                     currentLocation = destination;
-                    grid = destination.locationGrid;
+                    grid = gameManager.sceneGrids[destination.locationName];
+                        //destination.locationGrid;
                     currentPos = targetTransition.destinationSpawn;
-                    //currentPos = new Vector2(0, 0);
                     FindPath(grid.tiles[currentPos], finalDestination);
                     StartCoroutine("FollowPath", 0);
                     yield break;
@@ -205,19 +211,28 @@ public class PathFinding : MonoBehaviour
                 currentPoint = (Vector2)finalPath[targetIndex];
             }
             currentPos = Vector2.MoveTowards((Vector2)currentPos, (Vector2)currentPoint, speed * Time.deltaTime);
+            npc.currentPosition = currentPos;
+            if (gameManager.sceneGrids[npc.location.locationName].GetTileAtPosition(gameManager.sceneGrids[npc.location.locationName].TilePosition(new Vector2(npc.currentPosition.x - 0.5f, npc.currentPosition.y)))
+                //npc.location.locationGrid.GetTileAtPosition(npc.location.locationGrid.TilePosition(new Vector2(npc.currentPosition.x - 0.5f, npc.currentPosition.y))) 
+                == finalDestination)
+            {
+                StopAllCoroutines();
+                Debug.Log("I WIN");
+            }
             yield return null;
+            }
         }
-    }
 
-    int GetDistance(Tile tileA, Tile tileB)
-    {
-        int dstX = Mathf.Abs(tileA.gridX - tileB.gridX);
-        int dstY = Mathf.Abs(tileA.gridY - tileB.gridY);
-
-        if (dstX > dstY)
+        int GetDistance(Tile tileA, Tile tileB)
         {
-            return 14 * dstY + 10 * (dstX - dstY);
+            int dstX = Mathf.Abs(tileA.gridX - tileB.gridX);
+            int dstY = Mathf.Abs(tileA.gridY - tileB.gridY);
+
+            if (dstX > dstY)
+            {
+                return 14 * dstY + 10 * (dstX - dstY);
+            }
+            return 14 * dstX + 10 * (dstY - dstX);
         }
-        return 14 * dstX + 10 * (dstY - dstX);
     }
-}
+

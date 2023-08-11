@@ -3,13 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+[System.Serializable]
+
+//Load scenes async to find all box colliders and store unwalkable grid cells
 public class Grid2D : MonoBehaviour
 {
     [SerializeField] Tile[] tileArray;
     [SerializeField] public int gridWidth = 40;
     [SerializeField] public int gridHeight = 40;
     [SerializeField] float tileSize = 1f;
-    Vector2 gridSize = new(1f, 0.5f);
+    [SerializeField] public List<BoxCollider2D> locationColliders;
+    Vector2 gridSize = new Vector2(1f, 0.5f);
 
 
     public Dictionary<Vector2, Tile> tiles;
@@ -29,7 +33,7 @@ public class Grid2D : MonoBehaviour
             }
         }
     }
-    private void GenerateGrid()
+    public void GenerateGrid()
     {
         tiles = new Dictionary<Vector2, Tile>();
 
@@ -42,15 +46,27 @@ public class Grid2D : MonoBehaviour
                 Tile newTile = new();
                 float posX = (x * tileSize - y * tileSize) / 2f;
                 float posY = (x * tileSize + y * tileSize) / 4f;
-
+                foreach (BoxCollider2D collider in locationColliders)
+                {
+                    //Debug.Log(collider.bounds.extents);
+                    if (collider.bounds.Contains(new Vector2(posX, posY)))
+                    {
+                        //Debug.Log(collider.bounds.extents);
+                        newTile.isWalkable = false;
+                    }
+                    else
+                    {
+                        newTile.isWalkable = true;
+                    }
+                }
                 //newTile.transform.position = new Vector2(posX, posY);
                 //newTile.name = x + " , " + y;
                 newTile.posX = posX;
                 newTile.posY = posY;
                 newTile.gridX = x;
                 newTile.gridY = y;
-                newTile.isWalkable = true;
-
+                //newTile.isWalkable = true;
+                //Debug.Log(posX + " " + posY);
                 tiles[new Vector2(x, y)] = newTile;
             }
         }
@@ -90,7 +106,7 @@ public class Grid2D : MonoBehaviour
         float yy = Mathf.Round(localPosition.y / gridSize.y + localPosition.x / gridSize.x);// X grid coordinate
 
         // Calculate grid aligned position from current position
-        Vector2 position = transform.localPosition;
+        //Vector2 position = transform.localPosition;
         float x = (yy - xx) * 0.5f * gridSize.x;
         float y = (yy + xx) * 0.5f * gridSize.y;
 

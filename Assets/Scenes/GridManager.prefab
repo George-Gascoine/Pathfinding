@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8704245741278771879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8704245741278771881}
+  - component: {fileID: 8704245741278771880}
+  - component: {fileID: 8704245741278771882}
+  m_Layer: 0
+  m_Name: GridManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8704245741278771881
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8704245741278771879}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8704245741278771880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8704245741278771879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 443ec39c666061741b12340fbcde8324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileArray: []
+  gridWidth: 30
+  gridHeight: 30
+  tileSize: 1
+  path:
+  - highlight: {fileID: 0}
+    gCost: 0
+    hCost: 0
+    gridX: 0
+    gridY: 0
+    posX: 0
+    posY: 0
+    isWalkable: 1
+  - highlight: {fileID: 0}
+    gCost: 10
+    hCost: 40
+    gridX: 1
+    gridY: 0
+    posX: 0.5
+    posY: 0.25
+    isWalkable: 1
+  - highlight: {fileID: 0}
+    gCost: 20
+    hCost: 30
+    gridX: 2
+    gridY: 0
+    posX: 1
+    posY: 0.5
+    isWalkable: 1
+  - highlight: {fileID: 0}
+    gCost: 30
+    hCost: 20
+    gridX: 3
+    gridY: 0
+    posX: 1.5
+    posY: 0.75
+    isWalkable: 1
+  - highlight: {fileID: 0}
+    gCost: 40
+    hCost: 10
+    gridX: 4
+    gridY: 0
+    posX: 2
+    posY: 1
+    isWalkable: 1
+  - highlight: {fileID: 0}
+    gCost: 50
+    hCost: 0
+    gridX: 5
+    gridY: 0
+    posX: 2.5
+    posY: 1.25
+    isWalkable: 1
+--- !u!114 &8704245741278771882
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8704245741278771879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e0f0ae2fffc7e14baa1f0d9a961d082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  locationName: Scene 1
+  transitions:
+  - location: {fileID: 8704245741278771882}
+    locationTile: {x: 5, y: 0}
+    destination: {fileID: 7135996435880574534, guid: 2a39a36c64bc5c242abbb8fdb8c1a9c6, type: 3}
+    destinationSpawn: {x: 0, y: 0}
+  connectedLocations:
+  - {fileID: 7135996435880574534, guid: 2a39a36c64bc5c242abbb8fdb8c1a9c6, type: 3}
+  locationGrid: {fileID: 8704245741278771880}

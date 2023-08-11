@@ -4,6 +4,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+[System.Serializable]
 public class Tile
 {
     [SerializeField] public GameObject highlight;

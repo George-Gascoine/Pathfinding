@@ -6,7 +6,7 @@ using UnityEngine;
 public class Transition
 {
     public Location location;
-    public Tile locationTile;
+    public Vector2 locationTile;
     public Location destination;
     public Vector2 destinationSpawn;
 

@@ -1,0 +1,72 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &7135996435880574532
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7135996435880574528}
+  - component: {fileID: 7135996435880574529}
+  - component: {fileID: 7135996435880574534}
+  m_Layer: 0
+  m_Name: GridManager (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7135996435880574528
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7135996435880574532}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7135996435880574529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7135996435880574532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 443ec39c666061741b12340fbcde8324, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  tileArray: []
+  gridWidth: 40
+  gridHeight: 40
+  tileSize: 1
+  locationColliders:
+  - {fileID: 1461178420016532832, guid: adf050d634cdb7042b7ef73b47c41ef4, type: 3}
+  path: []
+--- !u!114 &7135996435880574534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7135996435880574532}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e0f0ae2fffc7e14baa1f0d9a961d082, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  locationName: Scene 2
+  transitions: []
+  connectedLocations:
+  - {fileID: 8704245741278771882, guid: d15a1fd69ea45ef41b3db93848bf7e1f, type: 3}
+  - {fileID: 485990631899791168, guid: 5825f4fa81f77de45b8788d3e9ed2e11, type: 3}
+  locationGrid: {fileID: 7135996435880574529}
